@@ -1,0 +1,135 @@
+﻿@model Onlineshopping.Models.UserTable
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+    //<a href="~/Views/Shared/_Layout.cshtml">~/Views/Shared/_Layout.cshtml</a>
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+@using (Html.BeginForm("Autherize", "Login", FormMethod.Post))
+{
+    <div class="container" style="margin-top:10%">
+        <div class="row">
+            <div class="col-md-4 offset-md-3 alert alert-info">
+                <h3 class="text-center">
+                    Login
+                </h3>
+                <form id="loginform">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input class="form-control" type="email" name="Email" id="logEmail" placeholder="Email" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input class="form-control" type="Password" name="Password" id="logPassword" placeholder="Password" />
+                        </div>
+
+                    </div>
+                </form>
+
+                <table>
+                    <tr>
+                        <td colspan="2">
+                            <label class="field-validation-error">@Html.DisplayFor(model => model.LoginErrorMessage)</label>
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <button class="btn btn-info form-control" type="submit"><i class="glyphicon glyphicon-log-in"></i>Login</button>
+
+                </div>
+
+                <div class="form-group">
+                    <a style="float:left">Forget Password?</a><a style="float:right;cursor:pointer" onclick=" SignUp()">Sign Up</a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    using (Html.BeginForm("AddEdit", "Register", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+<div class="modal fade" id="ShowModal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Registration Form</h4>
+                <a href="#" class="close" data-dismiss="modal">
+                    &times;
+                </a>
+
+            </div>
+            <div class="modal-body">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-info form-control" type="submit"><i class="glyphicon glyphicon-registration-mark"></i>Submit</button>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <label class="label-success">@ViewBag.SuccessMessage</label>
+            </div>
+        </div>
+
+    }
+}
+<script>
+    function SignUp() {
+        $("#ShowModal").modal();
+    }
+</script>
+

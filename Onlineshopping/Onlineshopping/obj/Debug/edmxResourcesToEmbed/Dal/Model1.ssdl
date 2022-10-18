@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyonlineshopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="carstatus">
+    <Key>
+      <PropertyRef Name="carstatusid" />
+    </Key>
+    <Property Name="carstatusid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="carstatus" Type="varchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="cart">
+    <Key>
+      <PropertyRef Name="cartid" />
+    </Key>
+    <Property Name="cartid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="productid" Type="int" />
+    <Property Name="memberid" Type="int" />
+    <Property Name="cartstatusid" Type="int" />
+  </EntityType>
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="categoryid" />
+    </Key>
+    <Property Name="categoryid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryName" Type="varchar" MaxLength="500" />
+    <Property Name="Isactive" Type="bit" />
+    <Property Name="Isdelete" Type="bit" />
+  </EntityType>
+  <EntityType Name="memberRole">
+    <Key>
+      <PropertyRef Name="memberRoleId" />
+    </Key>
+    <Property Name="memberRoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="memberId" Type="int" />
+    <Property Name="RoleId" Type="int" />
+  </EntityType>
+  <EntityType Name="Members">
+    <Key>
+      <PropertyRef Name="memberid" />
+    </Key>
+    <Property Name="memberid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Firstname" Type="varchar" MaxLength="500" />
+    <Property Name="lastname" Type="varchar" MaxLength="500" />
+    <Property Name="Emailid" Type="varchar" MaxLength="200" />
+    <Property Name="password" Type="varchar" MaxLength="500" />
+    <Property Name="Isactive" Type="bit" />
+    <Property Name="Isdelete" Type="bit" />
+    <Property Name="createdon" Type="datetime" />
+    <Property Name="modifiedon" Type="datetime" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="Productid" />
+    </Key>
+    <Property Name="Productid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductName" Type="varchar" MaxLength="500" />
+    <Property Name="categoryid" Type="int" />
+    <Property Name="Isactive" Type="bit" />
+    <Property Name="Isdelete" Type="bit" />
+    <Property Name="createdate" Type="datetime" />
+    <Property Name="modifieddate" Type="datetime" />
+    <Property Name="description" Type="varchar" MaxLength="50" />
+    <Property Name="productimage" Type="varchar(max)" />
+    <Property Name="Isfeatured" Type="bit" />
+    <Property Name="quantity" Type="int" />
+    <Property Name="price" Type="decimal" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="roles">
+    <Key>
+      <PropertyRef Name="Roleid" />
+    </Key>
+    <Property Name="Roleid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rolename" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="shippingdetails">
+    <Key>
+      <PropertyRef Name="shippingdetailid" />
+    </Key>
+    <Property Name="shippingdetailid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="memberid" Type="int" />
+    <Property Name="adress" Type="varchar" MaxLength="500" />
+    <Property Name="city" Type="varchar" MaxLength="500" />
+    <Property Name="state" Type="varchar" MaxLength="500" />
+    <Property Name="country" Type="varchar" MaxLength="50" />
+    <Property Name="zipcode" Type="varchar" MaxLength="50" />
+    <Property Name="orderid" Type="int" />
+    <Property Name="amountpaid" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="paymenttype" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="slideImage">
+    <Key>
+      <PropertyRef Name="slideid" />
+    </Key>
+    <Property Name="slideid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="slidetitle" Type="varchar" MaxLength="500" />
+    <Property Name="slideimage" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="255" />
+    <Property Name="Password" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <Association Name="FK__cart__productid__49C3F6B7">
+    <End Role="product" Type="Self.product" Multiplicity="0..1" />
+    <End Role="cart" Type="Self.cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="Productid" />
+      </Principal>
+      <Dependent Role="cart">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__product__categor__3B75D760">
+    <End Role="category" Type="Self.category" Multiplicity="0..1" />
+    <End Role="product" Type="Self.product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="category">
+        <PropertyRef Name="categoryid" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="categoryid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__shippingd__membe__440B1D61">
+    <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
+    <End Role="shippingdetails" Type="Self.shippingdetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="memberid" />
+      </Principal>
+      <Dependent Role="shippingdetails">
+        <PropertyRef Name="memberid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MyonlineshopModelStoreContainer">
+    <EntitySet Name="carstatus" EntityType="Self.carstatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="cart" EntityType="Self.cart" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="category" EntityType="Self.category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="memberRole" EntityType="Self.memberRole" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="shippingdetails" EntityType="Self.shippingdetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="slideImage" EntityType="Self.slideImage" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__cart__productid__49C3F6B7" Association="Self.FK__cart__productid__49C3F6B7">
+      <End Role="product" EntitySet="product" />
+      <End Role="cart" EntitySet="cart" />
+    </AssociationSet>
+    <AssociationSet Name="FK__product__categor__3B75D760" Association="Self.FK__product__categor__3B75D760">
+      <End Role="category" EntitySet="category" />
+      <End Role="product" EntitySet="product" />
+    </AssociationSet>
+    <AssociationSet Name="FK__shippingd__membe__440B1D61" Association="Self.FK__shippingd__membe__440B1D61">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="shippingdetails" EntitySet="shippingdetails" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

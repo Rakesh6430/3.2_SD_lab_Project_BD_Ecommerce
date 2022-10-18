@@ -1,0 +1,192 @@
+﻿@model Onlineshopping.Models.Home.HomeIndex
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    input {
+        width: 100%;
+    }
+</style>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/css/mdb.min.css" rel="stylesheet">
+<div id="demo" class="carousel slide" data-ride="carousel">
+
+    <!-- Indicators -->
+    <ul class="carousel-indicators">
+        <li data-target="#demo" data-slide-to="0" class="active"></li>
+        <li data-target="#demo" data-slide-to="1"></li>
+        <li data-target="#demo" data-slide-to="2"></li>
+    </ul>
+
+    <!-- The slideshow -->
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/Images/desktop.jpg" alt="Los Angeles" width="100%" height="700px">
+        </div>
+        <div class="carousel-item">
+            <img src="~/Images/Camera.jpg" alt="Chicago" width="100%" height="700px">
+        </div>
+        <div class="carousel-item">
+            <img src="~/Images/headphones.jpg" alt="New York" width="100%" height="700px">
+        </div>
+    </div>
+
+    <!-- Left and right controls -->
+    <a class="carousel-control-prev" href="#demo" data-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#demo" data-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </a>
+</div>
+<div class="row" style="text-align:center;padding:20px;background-color:gray;font-family:Candara;color:white">
+    <div class="col-12">
+        <h1>
+            Our products
+            <small>
+                trends product
+            </small>
+        </h1>
+
+    </div>
+
+</div>
+<div class="row" style="padding:20px;background-color:gray">
+    @foreach (var item in Model.ListOfproducts)
+    {
+        <div class="col-md-4">
+            <div class="card" style="width:400px;margin-left:auto;margin-right:auto;margin-top:35px;">
+                <img class="card-img-top" src="~/productimages/@item.productimage" alt="Card image" style="width:100%; height:240px">
+                <div class="card-body">
+                    <h4 class="card-title">@item.ProductName</h4>
+                    <p class="card-text">@item.price</p>
+                    <p class="card-text">
+                        @if (item.quantity > 0)
+                        {
+
+                        <p>Available</p>
+                    }
+                    else
+                    {
+                        <p>Not Available</p>
+                    }
+
+
+                        </p>
+
+                        <p class="card-text">
+                            @if (@item.Isfeatured == true)
+                            {
+                            <p>New</p>
+
+                        }
+                        else
+                        {
+                            <p>Old</p>
+                        }
+                            @if (Session["userID"] != null)
+                            {
+                                using (Html.BeginForm("AddtoCart", "Home", new { productId = item.Productid }, FormMethod.Post))
+                                {
+                                    <button type="submit" class="pull-right"><i class="fa fa-shopping-cart"></i></button>
+
+                                }
+                            }
+                            </p>
+
+
+                        </div>
+                    </div>
+                </div>
+            }
+</div>
+<div  style="padding:20px;background-color:gray">
+    @Html.PagedListPager(Model.ListOfproducts, page => Url.Action("Index", new { page, search = Request.QueryString["search"] }))
+</div>
+
+
+<footer class="page-footer bg-dark">
+
+
+    <div class="bg-success">
+        <div class="container">
+
+            <div class="row py-4" d-flex align-items-center>
+
+                <div class="col-md-12 text-center">
+                    <a href="#"><i class="fab fa-facebook-f mr-4"></i></a>
+                    <a href="#"><i class="fab fa-twitter mr-4"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in mr-4"></i></a>
+                    <a href="#"><i class="fab fa-google-plus-g mr-4"></i></a>
+                    <a href="#"><i class="fab fa-instagram mr-4"></i></a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class=" text-center text-md-left mt-5" style="background-color:black;margin:0px;color:white">
+
+        <div class="row">
+            <div class="col-md-3 mx-auto mb-4">
+
+                <h6 class="text-uppercase font-weight-bold"> The providers</h6>
+                <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width:125px;height:2px" />
+                <p class="mt-2">Lorem sdfsdfsdfb sdfbsdhfbsdf sdfjsbndfsdf fdgdfgfdg</p>
+            </div>
+            <div class="col-md-3 mx-auto mb-4">
+                <h6 class="text-uppercase font-weight-bold">Products</h6>
+                <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width:125px;height:2px" />
+                <ul class="list-unstyled">
+                    <li class="my-2"><a href="#">HTML 5</a></li>
+                    <li class="my-2"><a href="#">CSS 3</a></li>
+                    <li class="my-2"><a href="#">Bootstrap 4</a></li>
+                    <li class="my-2"><a href="#">JavaScript</a></li>
+
+                </ul>
+            </div>
+
+            <div class="col-md-3 mx-auto mb-4">
+                <h6 class="text-uppercase font-weight-bold">Contact</h6>
+                <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width:125px;height:2px" />
+                <ul class="list-unstyled">
+                    <li class="my-2"><i class="fas fa-home mr-3"></i>Dhaka Tejgaon</li>
+                    <li class="my-2"><i class="fas fa-envelope mr-3">fahimaust609@gmail.com</i></li>
+                    <li class="my-2"><i class="fas fa-phone mr-3"></i>+0201245415451</li>
+                    <li class="my-2"><i class="fas fa-print mr-3"></i>+0201245415451</li>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</footer>
+
+
+
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.0/js/mdb.min.js"></script>

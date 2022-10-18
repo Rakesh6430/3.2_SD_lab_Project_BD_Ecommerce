@@ -1,0 +1,158 @@
+﻿@using Onlineshopping.Models.Home;
+<!DOCTYPE html>
+<html>
+
+<style>
+    .dropbtn {
+        background-color: #3498DB;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #2980B9;
+        }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+    .dropdown a:hover {
+        background-color: #ddd;
+    }
+
+    .show {
+        display: block;
+    }
+</style>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+
+    <div class="row" style="background-color:black;text-align:center">
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <div class="logo">
+                <h1><a href="#">Online <span>Shopping Store</span></a></h1>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <div class="dropdown" style="margin-left:200px,margin-right:auto">
+                <button onclick="myFunction()" class="dropbtn">Cart</button>
+                <div id="myDropdown" class="dropdown-content">
+                    @if (Session["cart"] != null)
+                    {
+
+                        foreach (Item item in (List<Item>)Session["cart"])
+                        {
+                            <a href="@Url.Action("Removefromcart","Home",new {productId=item.Product.Productid })" class="dropdown-item">@item.Product.ProductName (@item.Quantity)<li class="fa fa-times"></li> </a>
+                        }
+
+                    }
+                    <li><a href="@Url.Action("Checkout","Home")">Checkout</a></li>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark" style="color:white">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Home/Index" style="color:white">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" style="color:white">Link</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#" style="color:white">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" method="post">
+                <input class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+                @if (Session["userID"] != null)
+                {
+                   <a class="nav-link" href="@Url.Action("Logout","Login")" style="color:white">Logout</a>
+                    
+                }
+                
+                else if(Session["userID"] == null)
+                {
+                    <a class="nav-link" href="/Login/Index" style="color:white">Login</a>
+                }
+
+            </form>
+            
+            
+        </div>
+    </nav>
+    <div class=" body-content">
+        @RenderBody()
+    </div>
+
+    <script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+           
+        }
+        function Changeid() {
+            Session["userID"] = null;
+        }
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

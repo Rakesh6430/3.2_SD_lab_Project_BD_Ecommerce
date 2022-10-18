@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MyonlineshopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="carstatu">
+    <Key>
+      <PropertyRef Name="carstatusid" />
+    </Key>
+    <Property Name="carstatusid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="carstatus" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="cart">
+    <Key>
+      <PropertyRef Name="cartid" />
+    </Key>
+    <Property Name="cartid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="productid" Type="Int32" />
+    <Property Name="memberid" Type="Int32" />
+    <Property Name="cartstatusid" Type="Int32" />
+    <NavigationProperty Name="product" Relationship="MyonlineshopModel.FK__cart__productid__49C3F6B7" FromRole="cart" ToRole="product" />
+  </EntityType>
+  <EntityType Name="category">
+    <Key>
+      <PropertyRef Name="categoryid" />
+    </Key>
+    <Property Name="categoryid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="categoryName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Isactive" Type="Boolean" />
+    <Property Name="Isdelete" Type="Boolean" />
+    <NavigationProperty Name="products" Relationship="MyonlineshopModel.FK__product__categor__3B75D760" FromRole="category" ToRole="product" />
+  </EntityType>
+  <EntityType Name="memberRole">
+    <Key>
+      <PropertyRef Name="memberRoleId" />
+    </Key>
+    <Property Name="memberRoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="memberId" Type="Int32" />
+    <Property Name="RoleId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Member">
+    <Key>
+      <PropertyRef Name="memberid" />
+    </Key>
+    <Property Name="memberid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Firstname" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="lastname" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Emailid" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Isactive" Type="Boolean" />
+    <Property Name="Isdelete" Type="Boolean" />
+    <Property Name="createdon" Type="DateTime" Precision="3" />
+    <Property Name="modifiedon" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="shippingdetails" Relationship="Self.FK__shippingd__membe__440B1D61" FromRole="Members" ToRole="shippingdetails" />
+  </EntityType>
+  <EntityType Name="role">
+    <Key>
+      <PropertyRef Name="Roleid" />
+    </Key>
+    <Property Name="Roleid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Rolename" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="shippingdetail">
+    <Key>
+      <PropertyRef Name="shippingdetailid" />
+    </Key>
+    <Property Name="shippingdetailid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="memberid" Type="Int32" />
+    <Property Name="adress" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="city" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="state" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="zipcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="orderid" Type="Int32" />
+    <Property Name="amountpaid" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="paymenttype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Member" Relationship="Self.FK__shippingd__membe__440B1D61" FromRole="shippingdetails" ToRole="Members" />
+  </EntityType>
+  <EntityType Name="slideImage">
+    <Key>
+      <PropertyRef Name="slideid" />
+    </Key>
+    <Property Name="slideid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="slidetitle" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="slideimage1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK__shippingd__membe__440B1D61">
+    <End Role="Members" Type="Self.Member" Multiplicity="0..1" />
+    <End Role="shippingdetails" Type="Self.shippingdetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Members">
+        <PropertyRef Name="memberid" />
+      </Principal>
+      <Dependent Role="shippingdetails">
+        <PropertyRef Name="memberid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MyonlineshopEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="carstatus" EntityType="Self.carstatu" />
+    <EntitySet Name="carts" EntityType="Self.cart" />
+    <EntitySet Name="categories" EntityType="Self.category" />
+    <EntitySet Name="memberRoles" EntityType="Self.memberRole" />
+    <EntitySet Name="Members" EntityType="Self.Member" />
+    <EntitySet Name="roles" EntityType="Self.role" />
+    <EntitySet Name="shippingdetails" EntityType="Self.shippingdetail" />
+    <EntitySet Name="slideImages" EntityType="Self.slideImage" />
+    <AssociationSet Name="FK__shippingd__membe__440B1D61" Association="Self.FK__shippingd__membe__440B1D61">
+      <End Role="Members" EntitySet="Members" />
+      <End Role="shippingdetails" EntitySet="shippingdetails" />
+    </AssociationSet>
+    <EntitySet Name="products" EntityType="MyonlineshopModel.product" />
+    <AssociationSet Name="FK__cart__productid__49C3F6B7" Association="MyonlineshopModel.FK__cart__productid__49C3F6B7">
+      <End Role="product" EntitySet="products" />
+      <End Role="cart" EntitySet="carts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__product__categor__3B75D760" Association="MyonlineshopModel.FK__product__categor__3B75D760">
+      <End Role="category" EntitySet="categories" />
+      <End Role="product" EntitySet="products" />
+    </AssociationSet>
+    <EntitySet Name="UserTables" EntityType="MyonlineshopModel.UserTable" />
+  </EntityContainer>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="Productid" />
+    </Key>
+    <Property Name="Productid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="categoryid" Type="Int32" />
+    <Property Name="Isactive" Type="Boolean" />
+    <Property Name="Isdelete" Type="Boolean" />
+    <Property Name="createdate" Type="DateTime" Precision="3" />
+    <Property Name="modifieddate" Type="DateTime" Precision="3" />
+    <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="productimage" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Isfeatured" Type="Boolean" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="price" Type="Decimal" Precision="18" Scale="0" />
+    <NavigationProperty Name="carts" Relationship="MyonlineshopModel.FK__cart__productid__49C3F6B7" FromRole="product" ToRole="cart" />
+    <NavigationProperty Name="category" Relationship="MyonlineshopModel.FK__product__categor__3B75D760" FromRole="product" ToRole="category" />
+  </EntityType>
+  <Association Name="FK__cart__productid__49C3F6B7">
+    <End Type="MyonlineshopModel.product" Role="product" Multiplicity="0..1" />
+    <End Type="MyonlineshopModel.cart" Role="cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="Productid" />
+      </Principal>
+      <Dependent Role="cart">
+        <PropertyRef Name="productid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__product__categor__3B75D760">
+    <End Type="MyonlineshopModel.category" Role="category" Multiplicity="0..1" />
+    <End Type="MyonlineshopModel.product" Role="product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="category">
+        <PropertyRef Name="categoryid" />
+      </Principal>
+      <Dependent Role="product">
+        <PropertyRef Name="categoryid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>
